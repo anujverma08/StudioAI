@@ -184,7 +184,7 @@ export const generateImage = async (req, res) => {
 export const removeImageBackground = async (req, res) => {
   try {
     const { userId } = req.auth; // Fixed: removed () call
-    const { image } = req.file;
+    const image = req.file;
     const plan = req.plan;
 
     // Fixed: proper free usage logic
@@ -207,7 +207,7 @@ export const removeImageBackground = async (req, res) => {
     console.log("Generated content:", secure_url);
 
     await sql`INSERT INTO creations (user_id, prompt, content, type) 
-                  VALUES (${userId}, 'Remove background from Image, ${secure_url}, 'image')`;
+                  VALUES (${userId}, 'Remove background from Image', ${secure_url}, 'image')`;
 
     res.status(200).json({ success: true, content: secure_url });
   } catch (error) {
@@ -219,11 +219,11 @@ export const removeImageBackground = async (req, res) => {
   }
 };
 
-export const removeImageObject = async (req, res) => {
+export const removeImageObject = async (req, res) => {  
   try {
     const { userId } = req.auth;
     const { object } = req.body; // Fixed: removed () call
-    const { image } = req.file;
+    const image  = req.file;
     const plan = req.plan;
 
     // Fixed: proper free usage logic

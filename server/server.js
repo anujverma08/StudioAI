@@ -5,6 +5,7 @@ import { clerkMiddleware, requireAuth } from '@clerk/express';
 import aiRouter from './route/aiRoutes.js'; // Fixed: default import with .js extension
 import connectCloudinary  from './config/cloudinary.js'; // Fixed: correct import path
 import userRouter from './route/userRoutes.js';
+
 const app = express();
 await connectCloudinary();
 app.use(cors());
@@ -26,3 +27,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+

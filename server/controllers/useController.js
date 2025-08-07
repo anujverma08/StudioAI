@@ -1,10 +1,10 @@
 
-import sql from "../config/db";
+import sql from "../config/db.js";
 
 
 export const getUserCreations = async (req, res) => {
     try{
-        const userId = req.auth;
+        const { userId } = req.auth;
         const creations = await sql`Select * FROM creations WHERE user_id = ${userId} ORDER BY created_at DESC`;
         res.status(200).json({
             success: true,

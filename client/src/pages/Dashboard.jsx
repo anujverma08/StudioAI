@@ -2,12 +2,34 @@ import React, { useEffect, useState } from 'react'
 import { dummyCreationData } from '../assets/assets';
 import { Sparkles, Gem } from 'lucide-react';
 import { Protect } from '@clerk/clerk-react';
-
 import CreationItems from '../components/CreationItems';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useAuth } from '@clerk/clerk-react';
+
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+
 const Dashboard = () => {
   const [creation, setCreation] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { getToken } = useAuth();
+
   const getDashboardData = async () => {
-    setCreation(dummyCreationData);
+    try{
+      const { data } = await axios.get('/api/user/get-user-creations', {
+        headers: {
+          'Authorization': `Bearer ${await getToken()}`
+        }
+      });
+      if(data.success){
+        setCreation(data.creations);
+      }else{
+        toast.error(data.message || 'Failed to fetch creations');
+      }
+    }catch(err){
+      toast.error(err.message || 'Failed to fetch creations');
+    }
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -40,7 +62,14 @@ const Dashboard = () => {
 
       </div>
 
-      <div className='space-y-3'>
+      {
+        loading ? (
+          <div className='flex justify-center items-center h-3/4'>
+            <span className='w-11 h-11 my-1 rounded-full border-3 border-purple-500 border-t-transparent animate-spin inline-block'></span>
+            <p className='text-primary text-lg ml-2'>Loading...</p>  
+          </div> 
+        ) : (
+          <div className='space-y-3'>
         <p className='mt-6 mb-4'>Recent Creations</p>
         {
           creation.map((item) => (
@@ -50,10 +79,9 @@ const Dashboard = () => {
         <div>
 
         </div>
-
-
-      </div>
-      
+          </div>
+      )
+    }      
     </div>
   )
 }

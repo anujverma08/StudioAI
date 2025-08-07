@@ -1,6 +1,6 @@
 import express from "express";
 import { auth } from "../middlewares/auth.js";
-import { getUserCreations, getPublishedCreations, toggleLikeCreation } from "../controllers/userController.js"; // Fixed: correct import path
+import { getUserCreations, getPublishedCreations, toggleLikeCreation } from "../controllers/useController.js"; // Fixed: correct import path
 
 const userRouter = express.Router();
 
