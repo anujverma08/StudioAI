@@ -10,8 +10,14 @@ import RemoveObject from './pages/RemoveObject'
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import Home from './pages/Home'
 import Community from './pages/Community'
+import { useEffect } from 'react'
+import { useAuth } from '@clerk/clerk-react'
 
 const App = () => {
+  const {getToken} = useAuth();
+  useEffect(() =>{
+    getToken().then((token)=>console.log(token));
+  },[]);
   return (
     
       <div>
