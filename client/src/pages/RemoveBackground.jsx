@@ -33,8 +33,9 @@ const RemoveBackground = () => {
         }
        
       }catch(err){
-        toast.error('Failed to remove background');
-        
+          if(err.response && err.response.data) {
+            toast.error(err.response.data.message || 'Failed to remove background');
+          } 
       }
       setLoading(false);
     }

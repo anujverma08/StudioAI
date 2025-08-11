@@ -40,7 +40,10 @@ const GenerateImages = () => {
             toast.error('Failed to generate image');
           }
         }catch(err){
-          toast.error('Failed to generate image');
+          if(err.response && err.response.data) {
+            toast.error(err.response.data.message || 'Failed to generate image');
+          }
+          // toast.error('Failed to generate image');
         }
         setLoading(false);
       }

@@ -32,7 +32,10 @@ const ReviewResume = () => {
           toast.error(data.message || 'Failed to review resume');
         }
       }catch(err){
-        toast.error(err.message || 'Failed to review resume');
+        if(err.response && err.response.data) {
+            toast.error(err.response.data.message || 'Failed to generate image');
+        }
+        // toast.error(err.message || 'Failed to review resume');
       }
       setLoading(false);
     }

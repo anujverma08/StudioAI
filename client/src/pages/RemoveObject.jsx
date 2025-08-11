@@ -39,7 +39,10 @@ const RemoveObject = () => {
         toast.error('Failed to remove object');
       }
     }catch(err){
-      toast.error(err.message || 'Failed to remove object');
+      if(err.response && err.response.data) {
+            toast.error(err.response.data.message || 'Failed to generate image');
+      }
+      // toast.error(err.message || 'Failed to remove object');
     }
     setLoading(false);
   };
